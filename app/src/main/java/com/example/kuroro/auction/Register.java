@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,7 +25,7 @@ public class Register extends AppCompatActivity {
 
     FirebaseAuth auth;
     EditText email, password, cpassword;
-    Button register, clear;
+    Button register, clear, redirect;
     ProgressBar progressBar;
     CheckBox checkBox;
     TextView txtView;
@@ -39,6 +40,7 @@ public class Register extends AppCompatActivity {
         email = findViewById(R.id.editText3);
         password =  findViewById(R.id.editText5);
         cpassword =  findViewById(R.id.editText7);
+        redirect = findViewById(R.id.button3);
         register =  findViewById(R.id.button4);
         clear =  findViewById(R.id.button5);
         progressBar = findViewById(R.id.progressBar4);
@@ -46,7 +48,13 @@ public class Register extends AppCompatActivity {
 
         progressBar.setVisibility(View.GONE);
 
-
+        redirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Register.this, Login.class);
+                startActivity(intent);
+            }
+        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +93,7 @@ public class Register extends AppCompatActivity {
                                     Snackbar.make(view, "Registration Complete", Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
                                     progressBar.setVisibility(View.GONE);
-                                    Intent intent = new Intent(Register.this, Setupprofile.class);
+                                    Intent intent = new Intent(Register.this, ProfileSet.class);
                                     startActivity(intent);
                                 }
                                 if(!task.isSuccessful()){
