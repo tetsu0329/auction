@@ -70,7 +70,6 @@ public class ProfileSet extends AppCompatActivity {
         browse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(
                         ProfileSet.this,
                         new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -82,7 +81,6 @@ public class ProfileSet extends AppCompatActivity {
         browse2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Hello2", Toast.LENGTH_SHORT).show();
                 ActivityCompat.requestPermissions(
                         ProfileSet.this,
                         new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},

@@ -7,31 +7,55 @@
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="View Items" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Manage Bid" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="View Recent Offers" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Notifications" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Bidding">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
+                android:id="@+id/bidding"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="English" />
+            <item
+                android:id="@+id/bidding2"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Dutch" />
+            <item
+                android:id="@+id/bidding3"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Sealed Bid" />
+            <item
+                android:id="@+id/bidding4"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Buy me now" />
+        </menu>
+    </item>
+    <item android:title="Communication">
+        <menu>
+            <item
+                android:id="@+id/Communication1"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Profile" />
+            <item
+                android:id="@+id/Communication2"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Contact Us" />
+            <item
+                android:id="@+id/Communication3"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Logout" />
         </menu>
     </item>
 
