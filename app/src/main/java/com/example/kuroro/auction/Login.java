@@ -54,11 +54,11 @@ public class Login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //if(null != auth.getCurrentUser()){
-            //Intent intent = new Intent(Login.this, MainActivity.class);
-            //startActivity(intent);
-        //}
-        //if(null == auth.getCurrentUser()){
+        if(null != auth.getCurrentUser()){
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+        }
+        if(null == auth.getCurrentUser()){
 
             login.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,7 +134,7 @@ public class Login extends AppCompatActivity {
                     });
                 }
             });
-        //}
+        }
 
     }
 }

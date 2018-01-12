@@ -3,6 +3,7 @@ package com.example.kuroro.auction;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     ImageView profileImage;
     StorageReference mStorageRef;
     DatabaseReference mDatabaseRef;
+    ConstraintLayout lyt;
 
     FloatingActionButton fabicon;
     @Override
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        lyt = findViewById(R.id.contentmain);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,14 +64,22 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        lyt.removeAllViews();
+        ShowAllBid showallbidfrag = new ShowAllBid();
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.contentmain,showallbidfrag,"Upload Fragment");
+        transaction.commit();
+
         fabicon = findViewById(R.id.fab);
         fabicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UploadBidding frag = new UploadBidding();
+                lyt.removeAllViews();
+                UploadBidding uploadbidfrag = new UploadBidding();
                 android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-                transaction.add(R.id.contentmain,frag,"Upload Fragment");
+                transaction.add(R.id.contentmain,uploadbidfrag,"Upload Fragment");
                 transaction.commit();
             }
         });

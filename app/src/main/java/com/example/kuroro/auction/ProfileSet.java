@@ -40,7 +40,7 @@ public class ProfileSet extends AppCompatActivity {
     Button browse, save, browse2;
     ImageView imageview, imageView2;
 
-    ProgressDialog progressDialog;
+//    ProgressDialog progressDialog;
     public static final String FB_STORAGE_PATH = "users/";
     public static final String FB_DATABASE_PATH = "userinfo";
     private static final int RESULT_IMAGE = 1;
@@ -166,7 +166,6 @@ public class ProfileSet extends AppCompatActivity {
         }
         else{
             if(uri != null && uri2 != null){
-                final String type = "Traveler";
                 final ProgressDialog dialog = new ProgressDialog(this);
                 dialog.setTitle("Please wait");
                 dialog.show();
