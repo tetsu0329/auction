@@ -1,11 +1,13 @@
 package com.example.kuroro.auction;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +48,15 @@ public class ShowAllBid extends Fragment {
                 BidList bidList2 = (BidList) adapterView.getAdapter().getItem(i);
                 String userID2 = bidList2.getBidID();
 
-//                Intent intent = new Intent(getContext(), ShowProfile.class);
-//
-//                intent.putExtra("key",userID2);
-//                startActivity(intent);
-                Toast.makeText(getContext(), userID2, Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("bidIDD",userID2);
+                ShowBidDetails fragment2 = new ShowBidDetails();
+                fragment2.setArguments(bundle);
+
+                android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.contentmain, fragment2);
+                fragmentTransaction.commit();
             }
         });
 

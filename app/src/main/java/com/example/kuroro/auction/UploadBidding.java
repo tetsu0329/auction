@@ -253,7 +253,7 @@ public class UploadBidding extends Fragment{
                 dialog.dismiss();
 
                 String uploadID = mDatabaseRef.push().getKey();
-                BidList bidList = new BidList(uploadID,userID, bidName, bidPrice, bidDays, bidType, taskSnapshot.getDownloadUrl().toString());
+                BidList bidList = new BidList(uploadID,userID, bidName, bidPrice, bidPrice, bidDays, bidType, taskSnapshot.getDownloadUrl().toString());
                 mDatabaseRef.child(uploadID).setValue(bidList);
                 Toast.makeText(getActivity(), "Item is now in the Auction", Toast.LENGTH_LONG).show();
 

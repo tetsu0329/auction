@@ -9,6 +9,7 @@ public class BidList {
     public String userID;
     public String bidName;
     public String bidPrice;
+    public String winningBid;
     public String bidDays;
     public String bidType;
     public String bidImage1;
@@ -29,6 +30,8 @@ public class BidList {
         return bidPrice;
     }
 
+    public String getWinningBid() { return  winningBid; }
+
     public String getBidDays() {
         return bidDays;
     }
@@ -39,11 +42,12 @@ public class BidList {
         return bidImage1;
     }
 
-    public BidList(String bidID, String userID, String bidName, String bidPrice, String bidDays, String bidType, String bidImage1) {
+    public BidList(String bidID, String userID, String bidName, String bidPrice, String winningBid, String bidDays, String bidType, String bidImage1) {
         this.bidID = bidID;
         this.userID = userID;
         this.bidName = bidName;
         this.bidPrice = bidPrice;
+        this.winningBid = winningBid;
         this.bidDays = bidDays;
         this.bidType = bidType;
         this.bidImage1 = bidImage1;
