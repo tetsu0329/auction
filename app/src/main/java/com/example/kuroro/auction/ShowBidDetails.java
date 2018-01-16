@@ -113,7 +113,7 @@ public class ShowBidDetails extends Fragment {
                         }
                     });
                 }
-                if(dataSnapshot.hasChild("bidImage2")){
+                else if(dataSnapshot.hasChild("bidImage2")){
                     progressDialog.dismiss();
                     imageView.setVisibility(View.VISIBLE);
                     imageView2.setVisibility(View.VISIBLE);
@@ -144,7 +144,7 @@ public class ShowBidDetails extends Fragment {
                         }
                     });
                 }
-                if(dataSnapshot.hasChild("bidImage1")){
+                else if(dataSnapshot.hasChild("bidImage1")){
                     progressDialog.dismiss();
                     imageView.setVisibility(View.VISIBLE);
                     imageView2.setVisibility(View.GONE);
@@ -262,9 +262,11 @@ public class ShowBidDetails extends Fragment {
 //                                            dialog.dismiss();
 //                                            Intent intent = new Intent(getContext(), MainActivity.class);
 //                                            startActivity(intent);
+                                            ask.setEnabled(false);
+                                            editText.setEnabled(false);
                                             mDatabaseRef5.getRef().child("offerPrice").setValue(nums);
+                                            Toast.makeText(getActivity(),"Your Bid has been placed", Toast.LENGTH_SHORT).show();
                                             //notifyAll();
-
 
                                         }
                                         else{

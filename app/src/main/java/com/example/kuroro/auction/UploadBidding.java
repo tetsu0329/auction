@@ -43,9 +43,9 @@ public class UploadBidding extends Fragment{
     int minteger = 1;
     Button btnincrease, btndecrease, browse1, browse2, browse3, upload;
     TextView integernum;
-    EditText name, price;
-    RadioButton englishradio, dutchradio, sealedradio, buymeradio;
-    RadioGroup radioGroup;
+    EditText name, price, notes, qty;
+    RadioButton englishradio, dutchradio, sealedradio, buymeradio, usedcon, newcon;
+    RadioGroup radioGroup, radioGroup2;
 
     int RESULT_IMAGE = 1;
     int RESULT_IMAGE2 = 2;
@@ -60,6 +60,7 @@ public class UploadBidding extends Fragment{
 
     Uri selectedImage, selectedImage2, selectedImage3;
     String bid = "";
+    String con = "";
 
     FirebaseAuth auth;
     public UploadBidding() {
@@ -89,11 +90,16 @@ public class UploadBidding extends Fragment{
         sealedradio = view.findViewById(R.id.sealedbid);
         buymeradio = view.findViewById(R.id.buymebid);
 
-        radioGroup = view.findViewById(R.id.radiogroup);
+        usedcon = view.findViewById(R.id.used);
+        newcon = view.findViewById(R.id.notused);
 
+        radioGroup = view.findViewById(R.id.radiogroup);
+        radioGroup2 = view.findViewById(R.id.radiogroup2);
 
         name = view.findViewById(R.id.edittext);
         price = view.findViewById(R.id.editText8);
+        notes = view.findViewById(R.id.note);
+        qty = view.findViewById(R.id.editText9);
 
         btnincrease.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,7 +159,7 @@ public class UploadBidding extends Fragment{
             @Override
             public void onClick(View view) {
                 int selectedId= radioGroup.getCheckedRadioButtonId();
-
+                int selectedId2 = radioGroup2.getCheckedRadioButtonId();
 
                 if(selectedId==R.id.englishbid){
                     bid = "English";
@@ -167,19 +173,44 @@ public class UploadBidding extends Fragment{
                 if(selectedId==R.id.buymebid){
                     bid = "BuyMe";
                 }
+                if(selectedId2==R.id.used){
+                    con = "Used";
+                }
+                if(selectedId2==R.id.notused){
+                    con = "Not Used";
+                }
                 if(selectedImage3 != null){
-
+                    String userID = auth.getCurrentUser().getUid();
+                    String bidName = name.getText().toString();
+                    String bidPrice = price.getText().toString();
+                    String bidDays = integernum.getText().toString();
+                    String quantity = qty.getText().toString();
+                    String bidType = bid;
+                    String contype = con;
+                    String bidNote = notes.getText().toString();
+                    upload3(userID, bidName, bidPrice, bidDays, bidType, contype, bidNote, quantity);
                 }
                 else if(selectedImage2 != null){
-
+                    String userID = auth.getCurrentUser().getUid();
+                    String bidName = name.getText().toString();
+                    String bidPrice = price.getText().toString();
+                    String bidDays = integernum.getText().toString();
+                    String quantity = qty.getText().toString();
+                    String bidType = bid;
+                    String contype = con;
+                    String bidNote = notes.getText().toString();
+                    upload2(userID, bidName, bidPrice, bidDays, bidType, contype, bidNote, quantity);
                 }
                 else if(selectedImage != null){
                     String userID = auth.getCurrentUser().getUid();
                     String bidName = name.getText().toString();
                     String bidPrice = price.getText().toString();
                     String bidDays = integernum.getText().toString();
+                    String quantity = qty.getText().toString();
                     String bidType = bid;
-                    upload1(userID, bidName, bidPrice, bidDays, bidType);
+                    String contype = con;
+                    String bidNote = notes.getText().toString();
+                    upload1(userID, bidName, bidPrice, bidDays, bidType, contype, bidNote, quantity);
                 }
 
 
@@ -241,7 +272,7 @@ public class UploadBidding extends Fragment{
         String word = ""+number;
         integernum.setText(word);
     }
-    public void upload1(final String userID, final String bidName, final String bidPrice, final String bidDays, final String bidType){
+    public void upload1(final String userID, final String bidName, final String bidPrice, final String bidDays, final String bidType, final String con, final String bidNote, final String quantity){
         final ProgressDialog dialog = new ProgressDialog(getActivity());
         dialog.setTitle("Uploading Item in the Auction");
         dialog.show();
@@ -253,7 +284,7 @@ public class UploadBidding extends Fragment{
                 dialog.dismiss();
 
                 String uploadID = mDatabaseRef.push().getKey();
-                BidList bidList = new BidList(uploadID,userID, bidName, bidPrice, bidPrice, bidDays, bidType, taskSnapshot.getDownloadUrl().toString());
+                BidList bidList = new BidList(uploadID,userID, bidName, bidPrice, bidPrice, bidDays, bidType, taskSnapshot.getDownloadUrl().toString(), con, bidNote, quantity);
                 mDatabaseRef.child(uploadID).setValue(bidList);
                 Toast.makeText(getActivity(), "Item is now in the Auction", Toast.LENGTH_LONG).show();
 
@@ -278,11 +309,131 @@ public class UploadBidding extends Fragment{
                     }
                 });
     }
-    public void upload2(){
+    public void upload2(final String userID, final String bidName, final String bidPrice, final String bidDays, final String bidType, final String con, final String bidNote, final String quantity){
+        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setTitle("Uploading Item in the Auction");
+        dialog.show();
 
+        StorageReference ref = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(selectedImage));
+        ref.putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                StorageReference ref2 = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(selectedImage2));
+                ref2.putFile(selectedImage2).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot2) {
+                        dialog.dismiss();
+
+                        String uploadID = mDatabaseRef.push().getKey();
+                        BidList2 bidList = new BidList2(uploadID,userID, bidName, bidPrice, bidPrice, bidDays, bidType, taskSnapshot.getDownloadUrl().toString(), taskSnapshot2.getDownloadUrl().toString(), con, bidNote, quantity);
+                        mDatabaseRef.child(uploadID).setValue(bidList);
+                        Toast.makeText(getActivity(), "Item is now in the Auction", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
+                        Toast.makeText(getActivity(), "2nd Image Failed Uploading", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        dialog.setMessage("Setting up 2nd Image "+ (int)progress+ "%");
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                dialog.dismiss();
+                Toast.makeText(getActivity(), "1st Image Failed Uploading", Toast.LENGTH_SHORT).show();
+            }
+        })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>()
+                {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
+                    {
+                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        dialog.setMessage("Setting up 1st Image "+ (int)progress+ "%");
+                    }
+                });
     }
-    public void upload3(){
+    public void upload3(final String userID, final String bidName, final String bidPrice, final String bidDays, final String bidType, final String con, final String bidNote, final String quantity){
+        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setTitle("Uploading Item in the Auction");
+        dialog.show();
 
+        StorageReference ref = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(selectedImage));
+        ref.putFile(selectedImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                StorageReference ref2 = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(selectedImage2));
+                ref2.putFile(selectedImage2).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot2) {
+
+                        StorageReference ref3 = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(selectedImage3));
+                        ref3.putFile(selectedImage3).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot3) {
+                                dialog.dismiss();
+                                String uploadID = mDatabaseRef.push().getKey();
+                                BidList3 bidList = new BidList3(uploadID,userID, bidName, bidPrice, bidPrice, bidDays, bidType, taskSnapshot.getDownloadUrl().toString(), taskSnapshot2.getDownloadUrl().toString(), taskSnapshot3.getDownloadUrl().toString(), con, bidNote, quantity);
+                                mDatabaseRef.child(uploadID).setValue(bidList);
+                                Toast.makeText(getActivity(), "Item is now in the Auction", Toast.LENGTH_LONG).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                dialog.dismiss();
+                                Toast.makeText(getActivity(), "3rd Image Item Failed Uploading", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                dialog.setMessage("Setting up 3rd Image"+ (int)progress+ "%");
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
+                        Toast.makeText(getActivity(), "2nd Image Failed Uploading", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        dialog.setMessage("Setting up 2nd Image "+ (int)progress+ "%");
+                    }
+                });
+
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                dialog.dismiss();
+                Toast.makeText(getActivity(), "1st Image Failed Uploading", Toast.LENGTH_SHORT).show();
+            }
+        })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>()
+                {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
+                    {
+                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        dialog.setMessage("Setting up 1st Image"+ (int)progress+ "%");
+                    }
+                });
     }
     public String getImageExt(Uri uri){
         ContentResolver contentResolver = getActivity().getContentResolver();

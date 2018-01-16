@@ -4,7 +4,7 @@ package com.example.kuroro.auction;
  * Created by Kuroro on 1/11/2018.
  */
 
-public class BidList {
+public class BidList3 {
     public String bidID;
     public String userID;
     public String bidName;
@@ -13,6 +13,8 @@ public class BidList {
     public String bidDays;
     public String bidType;
     public String bidImage1;
+    public String bidImage2;
+    public String bidImage3;
     public String condition;
     public String biddersNote;
     public String quantity;
@@ -46,13 +48,17 @@ public class BidList {
         return bidImage1;
     }
 
+    public String getBidImage2() { return bidImage2; }
+
+    public String getBidImage3() {return bidImage3; }
+
     public String getCondition(){ return condition; }
 
     public String getBiddersNote() { return biddersNote; }
 
     public String getQuantity() { return quantity; }
 
-    public BidList(String bidID, String userID, String bidName, String bidPrice, String winningBid, String bidDays, String bidType, String bidImage1, String condition, String biddersNote, String quantity) {
+    public BidList3(String bidID, String userID, String bidName, String bidPrice, String winningBid, String bidDays, String bidType, String bidImage1, String bidImage2, String bidImage3, String condition, String biddersNote, String quantity) {
         this.bidID = bidID;
         this.userID = userID;
         this.bidName = bidName;
@@ -61,9 +67,11 @@ public class BidList {
         this.bidDays = bidDays;
         this.bidType = bidType;
         this.bidImage1 = bidImage1;
+        this.bidImage2 = bidImage2;
+        this.bidImage3 = bidImage3;
         this.condition = condition;
         this.biddersNote = biddersNote;
         this.quantity = quantity;
     }
-    public BidList (){}
+    public BidList3(){}
 }
