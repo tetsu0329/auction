@@ -67,9 +67,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         lyt.removeAllViews();
+
         ShowAllBid showallbidfrag = new ShowAllBid();
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction().addToBackStack(null);
         transaction.add(R.id.contentmain,showallbidfrag,"Upload Fragment");
         transaction.commit();
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity
                 lyt.removeAllViews();
                 UploadBidding uploadbidfrag = new UploadBidding();
                 android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-                android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+                android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction().addToBackStack(null);
                 transaction.add(R.id.contentmain,uploadbidfrag,"Upload Fragment");
                 transaction.commit();
             }
@@ -114,9 +115,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
             super.onBackPressed();
         }
@@ -149,19 +152,63 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        displaySelectedScreen(id);
         return true;
+    }
+    public void displaySelectedScreen(int id){
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+        switch (id){
+            case R.id.viewitems:
+                lyt.removeAllViews();
+
+                ShowAllBid showallbidfrag = new ShowAllBid();
+                android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction().addToBackStack(null);
+                transaction.add(R.id.contentmain,showallbidfrag,"Upload Fragment");
+                transaction.commit();
+
+                break;
+            case R.id.managebid:
+
+                break;
+
+            case R.id.recentoffer:
+
+                break;
+
+            case R.id.notification:
+
+                break;
+
+            case R.id.bidding:
+
+                break;
+
+            case R.id.bidding2:
+
+                break;
+            case R.id.bidding3:
+
+                break;
+
+            case R.id.bidding4:
+
+                break;
+
+            case R.id.Communication1:
+
+                break;
+            case R.id.Communication2:
+
+                break;
+            case R.id.Communication3:
+
+                break;
+        }
     }
 }

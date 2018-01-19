@@ -46,6 +46,7 @@ public class UploadBidding extends Fragment{
     EditText name, price, notes, qty;
     RadioButton englishradio, dutchradio, sealedradio, buymeradio, usedcon, newcon;
     RadioGroup radioGroup, radioGroup2;
+    ProgressDialog dialog;
 
     int RESULT_IMAGE = 1;
     int RESULT_IMAGE2 = 2;
@@ -273,8 +274,9 @@ public class UploadBidding extends Fragment{
         integernum.setText(word);
     }
     public void upload1(final String userID, final String bidName, final String bidPrice, final String bidDays, final String bidType, final String con, final String bidNote, final String quantity){
-        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog = new ProgressDialog(getActivity());
         dialog.setTitle("Uploading Item in the Auction");
+        dialog.setCancelable(false);
         dialog.show();
 
         StorageReference ref = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(selectedImage));

@@ -2,9 +2,6 @@ package com.example.kuroro.auction;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,10 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class ShowBidDetails extends Fragment {
+public class ShowBidDetails2 extends Fragment {
 
     FirebaseAuth auth;
     StorageReference mStorageRef;
@@ -42,7 +36,7 @@ public class ShowBidDetails extends Fragment {
     ProgressDialog progressDialog;
     Dialog dialog;
     String pricee;
-    public ShowBidDetails() {
+    public ShowBidDetails2() {
         // Required empty public constructor
     }
 
@@ -126,9 +120,9 @@ public class ShowBidDetails extends Fragment {
 
                                     }
                                 });
-                                Picasso.with(getActivity()).load(bidList3.getBidImage1()).placeholder(R.drawable.add_animation).into(imageView);
-                                Picasso.with(getActivity()).load(bidList3.getBidImage2()).placeholder(R.drawable.add_animation).into(imageView2);
-                                Picasso.with(getActivity()).load(bidList3.getBidImage3()).placeholder(R.drawable.add_animation).into(imageView3);
+                                Picasso.with(getActivity()).load(bidList3.getBidImage1()).into(imageView);
+                                Picasso.with(getActivity()).load(bidList3.getBidImage2()).into(imageView2);
+                                Picasso.with(getActivity()).load(bidList3.getBidImage3()).into(imageView3);
                             }
                         }
                         @Override
@@ -182,8 +176,8 @@ public class ShowBidDetails extends Fragment {
 
                                     }
                                 });
-                                Picasso.with(getActivity()).load(bidList3.getBidImage1()).placeholder(R.drawable.add_animation).into(imageView);
-                                Picasso.with(getActivity()).load(bidList3.getBidImage2()).placeholder(R.drawable.add_animation).into(imageView2);
+                                Picasso.with(getActivity()).load(bidList3.getBidImage1()).into(imageView);
+                                Picasso.with(getActivity()).load(bidList3.getBidImage2()).into(imageView2);
                             }
                         }
                         @Override
@@ -237,7 +231,7 @@ public class ShowBidDetails extends Fragment {
 
                                     }
                                 });
-                                Picasso.with(getActivity()).load(bidList3.getBidImage1()).placeholder(R.drawable.add_animation).into(imageView);
+                                Picasso.with(getActivity()).load(bidList3.getBidImage1()).into(imageView);
                             }
                         }
                         @Override
@@ -299,7 +293,7 @@ public class ShowBidDetails extends Fragment {
                                         String nums = editText.getText().toString();
                                         int req = Integer.parseInt(nums);
                                         int max = Integer.parseInt(pricee);
-                                        if(max<=req){
+                                        if(max>=req){
                                             mDatabaseRef4.child(bidID).removeValue();
                                             FinalBid finalBid = new FinalBid(requestID, nums, bidID, userID);
                                             mDatabaseRef4.child(bidID).setValue(finalBid);
@@ -318,7 +312,7 @@ public class ShowBidDetails extends Fragment {
 
                                         }
                                         else{
-                                            Toast.makeText(getActivity(),"Higher Bid Required", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(),"Lower Bid Required", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });

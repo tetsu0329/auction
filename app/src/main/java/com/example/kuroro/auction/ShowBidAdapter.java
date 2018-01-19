@@ -44,13 +44,15 @@ public class ShowBidAdapter extends ArrayAdapter<BidList> {
         row = layoutInflater.inflate(R.layout.bid_row_layout,parent,false);
         TextView txtname = row.findViewById(R.id.textView);
         TextView txtdays = row.findViewById(R.id.textView5);
-        TextView txtprice = row.findViewById(R.id.textView7);
+        final TextView txtprice = row.findViewById(R.id.textView7);
         final TextView txtwin = row.findViewById(R.id.textView8);
+        final TextView txttype = row.findViewById(R.id.textView9);
 
         try{
             String bidID = listImage.get(position).getBidID();
             txtname.setText(listImage.get(position).getBidName());
             txtdays.setText(listImage.get(position).getBidDays());
+            txttype.setText(listImage.get(position).getBidType());
             String textfortxtprice = "Starting Bid: " + listImage.get(position).getBidPrice();
             txtprice.setText(textfortxtprice);
 
@@ -61,15 +63,27 @@ public class ShowBidAdapter extends ArrayAdapter<BidList> {
                     if(dataSnapshot3.exists()){
                         for (DataSnapshot snapshot3 : dataSnapshot3.getChildren())
                         {
-                            FinalBid bidList4 = snapshot3.getValue(FinalBid.class);
-                            String txtfortxtwin = "Current Winning Bid: "+ bidList4.getOfferPrice();
+                            if(txttype.getText().toString().equals("Sealed")){
+                            String txtfortxtwin = "Current Winning Bid: Sealed";
                             txtwin.setText(txtfortxtwin);
-
+                        }
+                            else{
+                                FinalBid bidList4 = snapshot3.getValue(FinalBid.class);
+                                String txtfortxtwin = "Current Winning Bid: "+ bidList4.getOfferPrice();
+                                txtwin.setText(txtfortxtwin);
+                            }
                         }
                     }
                     else{
-                        String txtfortxtwin = "Current Winning Bid: "+ listImage.get(position).getBidPrice();
-                        txtwin.setText(txtfortxtwin);
+                        if(txttype.getText().toString().equals("Sealed")){
+                            String txtfortxtwin = "Current Winning Bid: Sealed";
+                            txtwin.setText(txtfortxtwin);
+                        }
+                        else{
+                            String txtfortxtwin = "Current Winning Bid: "+ listImage.get(position).getBidPrice();
+                            txtwin.setText(txtfortxtwin);
+                        }
+
                     }
 
                 }

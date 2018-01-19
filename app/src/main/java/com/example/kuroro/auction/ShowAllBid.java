@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -47,16 +48,40 @@ public class ShowAllBid extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 BidList bidList2 = (BidList) adapterView.getAdapter().getItem(i);
                 String userID2 = bidList2.getBidID();
+                Toast.makeText(getActivity(), bidList2.getBidType(), Toast.LENGTH_SHORT).show();
+                if(bidList2.getBidType().equals("English")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("bidIDD",userID2);
+                    ShowBidDetails fragment2 = new ShowBidDetails();
+                    fragment2.setArguments(bundle);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("bidIDD",userID2);
-                ShowBidDetails fragment2 = new ShowBidDetails();
-                fragment2.setArguments(bundle);
+                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.contentmain, fragment2);
+                    fragmentTransaction.commit();
+                }
+                if(bidList2.getBidType().equals("Dutch")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("bidIDD",userID2);
+                    ShowBidDetails2 fragment2 = new ShowBidDetails2();
+                    fragment2.setArguments(bundle);
 
-                android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentmain, fragment2);
-                fragmentTransaction.commit();
+                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.contentmain, fragment2);
+                    fragmentTransaction.commit();
+                }
+                if(bidList2.getBidType().equals("Sealed")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("bidIDD",userID2);
+                    ShowBidDetails3 fragment2 = new ShowBidDetails3();
+                    fragment2.setArguments(bundle);
+
+                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.contentmain, fragment2);
+                    fragmentTransaction.commit();
+                }
             }
         });
 

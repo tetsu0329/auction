@@ -57,84 +57,88 @@ public class Login extends AppCompatActivity {
         if(null != auth.getCurrentUser()){
             Intent intent = new Intent(Login.this, MainActivity.class);
             startActivity(intent);
+            login();
+
         }
         if(null == auth.getCurrentUser()){
-
-            login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    auth.signOut();
-                    editText.setEnabled(false);
-                    editText2.setEnabled(false);
-                    final String email1 = editText.getText().toString();
-                    String password1 = editText2.getText().toString();
-
-                    progressBar.setVisibility(View.VISIBLE);
-
-                    login.setVisibility(View.GONE);
-                    register.setVisibility(View.GONE);
-
-                    auth.signInWithEmailAndPassword(email1, password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.GONE);
-                            if(!task.isSuccessful()){
-                                Snackbar.make(view, "Incorrect Username or Password", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-
-                                login.setVisibility(View.VISIBLE);
-                                register.setVisibility(View.VISIBLE);
-
-                                editText.setEnabled(true);
-                                editText2.setEnabled(true);
-                            }
-                            else{
-                                final String id = auth.getCurrentUser().getUid();
-                                mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-                                Query search = mDatabaseRef.child("userinfo").orderByChild("userID").equalTo(id);
-                                search.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if(dataSnapshot.exists()){
-
-                                            for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                                                UserList userAccount = snapshot.getValue(UserList.class);
-                                                String stat = userAccount.getUserStatus();
-
-                                                if(stat.equals("Pending")){
-                                                    login.setVisibility(View.VISIBLE);
-                                                    register.setVisibility(View.VISIBLE);
-
-                                                    editText.setEnabled(true);
-                                                    editText2.setEnabled(true);
-
-                                                    Intent intent = new Intent(Login.this, MainActivity.class);
-                                                    startActivity(intent);
-                                                }
-                                                else{
-                                                    Intent intent = new Intent(Login.this, MainActivity.class);
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                        }
-                                        else{
-                                            Intent intent = new Intent(Login.this, ProfileSet.class);
-                                            startActivity(intent);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-
-                            }
-                        }
-                    });
-                }
-            });
+            login();
         }
 
+    }
+    public void login (){
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                auth.signOut();
+                editText.setEnabled(false);
+                editText2.setEnabled(false);
+                final String email1 = editText.getText().toString();
+                String password1 = editText2.getText().toString();
+
+                progressBar.setVisibility(View.VISIBLE);
+
+                login.setVisibility(View.GONE);
+                register.setVisibility(View.GONE);
+
+                auth.signInWithEmailAndPassword(email1, password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if(!task.isSuccessful()){
+                            Snackbar.make(view, "Incorrect Username or Password", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+
+                            login.setVisibility(View.VISIBLE);
+                            register.setVisibility(View.VISIBLE);
+
+                            editText.setEnabled(true);
+                            editText2.setEnabled(true);
+                        }
+                        else{
+                            final String id = auth.getCurrentUser().getUid();
+                            mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+                            Query search = mDatabaseRef.child("userinfo").orderByChild("userID").equalTo(id);
+                            search.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+
+                                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                            UserList userAccount = snapshot.getValue(UserList.class);
+                                            String stat = userAccount.getUserStatus();
+
+                                            if(stat.equals("Pending")){
+                                                login.setVisibility(View.VISIBLE);
+                                                register.setVisibility(View.VISIBLE);
+
+                                                editText.setEnabled(true);
+                                                editText2.setEnabled(true);
+
+                                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        Intent intent = new Intent(Login.this, ProfileSet.class);
+                                        startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+                    }
+                });
+            }
+        });
     }
 }
