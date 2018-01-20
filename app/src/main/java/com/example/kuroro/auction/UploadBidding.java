@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -34,6 +35,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -63,6 +67,7 @@ public class UploadBidding extends Fragment{
     String bid = "";
     String con = "";
 
+    DatePicker date;
     FirebaseAuth auth;
     public UploadBidding() {
         // Required empty public constructor
@@ -77,10 +82,6 @@ public class UploadBidding extends Fragment{
         auth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("bid");
-
-
-        btnincrease = view.findViewById(R.id.increase);
-        integernum  = view.findViewById(R.id.integer_number);
 
         imageView = view.findViewById(R.id.imageView);
         imageView2 = view.findViewById(R.id.imageView2);
@@ -102,26 +103,9 @@ public class UploadBidding extends Fragment{
         notes = view.findViewById(R.id.note);
         qty = view.findViewById(R.id.editText9);
 
-        btnincrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                minteger = minteger + 1;
-                display(minteger);
-            }
-        });
-        btndecrease = view.findViewById(R.id.decrease);
-        btndecrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (minteger>1){
-                    minteger = minteger - 1;
-                    display(minteger);
-                }
-                else{
-                    display(minteger);
-                }
-            }
-        });
+        date = view.findViewById(R.id.datepicker);
+        date.setMinDate(System.currentTimeMillis() - 1000);
+
         browse1 = view.findViewById(R.id.browse1);
         browse1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +143,13 @@ public class UploadBidding extends Fragment{
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int day = date.getDayOfMonth();
+                int month = date.getMonth();
+                int year = date.getYear()-1900;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd yyyy");
+                Date d = new Date(year, month, day);
+                String date1 = dateFormat.format(d);
+
                 int selectedId= radioGroup.getCheckedRadioButtonId();
                 int selectedId2 = radioGroup2.getCheckedRadioButtonId();
 
@@ -184,34 +175,31 @@ public class UploadBidding extends Fragment{
                     String userID = auth.getCurrentUser().getUid();
                     String bidName = name.getText().toString();
                     String bidPrice = price.getText().toString();
-                    String bidDays = integernum.getText().toString();
                     String quantity = qty.getText().toString();
                     String bidType = bid;
                     String contype = con;
                     String bidNote = notes.getText().toString();
-                    upload3(userID, bidName, bidPrice, bidDays, bidType, contype, bidNote, quantity);
+                    upload3(userID, bidName, bidPrice, date1, bidType, contype, bidNote, quantity);
                 }
                 else if(selectedImage2 != null){
                     String userID = auth.getCurrentUser().getUid();
                     String bidName = name.getText().toString();
                     String bidPrice = price.getText().toString();
-                    String bidDays = integernum.getText().toString();
                     String quantity = qty.getText().toString();
                     String bidType = bid;
                     String contype = con;
                     String bidNote = notes.getText().toString();
-                    upload2(userID, bidName, bidPrice, bidDays, bidType, contype, bidNote, quantity);
+                    upload2(userID, bidName, bidPrice, date1, bidType, contype, bidNote, quantity);
                 }
                 else if(selectedImage != null){
                     String userID = auth.getCurrentUser().getUid();
                     String bidName = name.getText().toString();
                     String bidPrice = price.getText().toString();
-                    String bidDays = integernum.getText().toString();
                     String quantity = qty.getText().toString();
                     String bidType = bid;
                     String contype = con;
                     String bidNote = notes.getText().toString();
-                    upload1(userID, bidName, bidPrice, bidDays, bidType, contype, bidNote, quantity);
+                    upload1(userID, bidName, bidPrice, date1, bidType, contype, bidNote, quantity);
                 }
 
 
@@ -314,6 +302,7 @@ public class UploadBidding extends Fragment{
     public void upload2(final String userID, final String bidName, final String bidPrice, final String bidDays, final String bidType, final String con, final String bidNote, final String quantity){
         final ProgressDialog dialog = new ProgressDialog(getActivity());
         dialog.setTitle("Uploading Item in the Auction");
+        dialog.setCancelable(false);
         dialog.show();
 
         StorageReference ref = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(selectedImage));
@@ -368,6 +357,7 @@ public class UploadBidding extends Fragment{
     public void upload3(final String userID, final String bidName, final String bidPrice, final String bidDays, final String bidType, final String con, final String bidNote, final String quantity){
         final ProgressDialog dialog = new ProgressDialog(getActivity());
         dialog.setTitle("Uploading Item in the Auction");
+        dialog.setCancelable(false);
         dialog.show();
 
         StorageReference ref = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(selectedImage));
@@ -433,7 +423,7 @@ public class UploadBidding extends Fragment{
                     public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
                     {
                         double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                        dialog.setMessage("Setting up 1st Image"+ (int)progress+ "%");
+                        dialog.setMessage("Setting up 1st Image "+ (int)progress+ "%");
                     }
                 });
     }

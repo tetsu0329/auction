@@ -168,6 +168,7 @@ public class ProfileSet extends AppCompatActivity {
             if(uri != null && uri2 != null){
                 final ProgressDialog dialog = new ProgressDialog(this);
                 dialog.setTitle("Please wait");
+                dialog.setCancelable(false);
                 dialog.show();
                 StorageReference ref = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(uri));
                 ref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

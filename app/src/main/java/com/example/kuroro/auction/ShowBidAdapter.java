@@ -2,6 +2,7 @@ package com.example.kuroro.auction;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,10 +54,28 @@ public class ShowBidAdapter extends ArrayAdapter<BidList> {
         try{
             String bidID = listImage.get(position).getBidID();
             txtname.setText(listImage.get(position).getBidName());
-            txtdays.setText(listImage.get(position).getBidDays());
+
             txttype.setText(listImage.get(position).getBidType());
             String textfortxtprice = "Starting Bid: " + listImage.get(position).getBidPrice();
             txtprice.setText(textfortxtprice);
+
+            String d = listImage.get(position).getBidDays();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd yyyy");
+            Date d1 = dateFormat.parse(d);
+
+            Time today = new Time(Time.getCurrentTimezone());
+            today.setToNow();
+            int day2 = today.monthDay;
+            int month2 = today.month;
+            int year2 = today.year-1900;
+
+            Date d2 = new Date(year2, month2, day2);
+
+            long diff = d1.getTime() - d2.getTime();
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            String daysleft = String.valueOf(diffDays) + " days left";
+            txtdays.setText(daysleft);
 
             Query search2 = mDatabaseRef2.child("finalbid").orderByChild("bidID").startAt(bidID).endAt(bidID+"\uf8ff");
             search2.addListenerForSingleValueEvent(new ValueEventListener() {
