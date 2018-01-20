@@ -27,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ public class ShowBidDetails extends Fragment {
     ProgressDialog progressDialog;
     Dialog dialog;
     String pricee;
+    String mydate;
     public ShowBidDetails() {
         // Required empty public constructor
     }
@@ -73,6 +75,8 @@ public class ShowBidDetails extends Fragment {
         imageView.setVisibility(View.GONE);
         imageView2.setVisibility(View.GONE);
         imageView3.setVisibility(View.GONE);
+
+        mydate = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait while loading Item information..... ");
@@ -301,10 +305,10 @@ public class ShowBidDetails extends Fragment {
                                         int max = Integer.parseInt(pricee);
                                         if(max<=req){
                                             mDatabaseRef4.child(bidID).removeValue();
-                                            FinalBid finalBid = new FinalBid(requestID, nums, bidID, userID);
+                                            FinalBid finalBid = new FinalBid(requestID, nums, bidID, userID, mydate);
                                             mDatabaseRef4.child(bidID).setValue(finalBid);
 
-                                            BidHistoryList requestTour = new BidHistoryList(requestID,nums,bidID,userID);
+                                            BidHistoryList requestTour = new BidHistoryList(requestID,nums,bidID,userID, mydate);
                                             mDatabaseRef3.child(requestID).setValue(requestTour);
 
 //                                            dialog.dismiss();

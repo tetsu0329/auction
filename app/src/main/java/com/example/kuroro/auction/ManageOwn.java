@@ -13,10 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -30,13 +32,17 @@ public class ManageOwn extends Fragment {
     ProgressDialog progressDialog;
     DatabaseReference mDatabaseRef;
     ShowBidAdapter showBidAdapter;
+    FirebaseAuth firebaseAuth;
+    String userID;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_show_all_bid, container, false);
+        View view = inflater.inflate(R.layout.fragment_manage_own, container, false);
         bidList = new ArrayList<>();
         listView = view.findViewById(R.id.listView);
+        firebaseAuth = FirebaseAuth.getInstance();
+        userID = firebaseAuth.getCurrentUser().getUid();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -61,7 +67,8 @@ public class ManageOwn extends Fragment {
         progressDialog.setCancelable(false);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("bid");
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        Query search = mDatabaseRef.orderByChild("userID").equalTo(userID);
+        search.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 bidList.clear();
@@ -70,7 +77,7 @@ public class ManageOwn extends Fragment {
                     BidList productUpload = snapshot.getValue(BidList.class);
                     bidList.add(productUpload);
                 }
-                showBidAdapter = new ShowBidAdapter(getActivity(), R.layout.bid_row_layout, bidList);
+                showBidAdapter = new ShowBidAdapter(getActivity(), R.layout.ownbid_row_layout, bidList);
                 listView.setAdapter(showBidAdapter);
             }
             @Override
@@ -79,7 +86,5 @@ public class ManageOwn extends Fragment {
             }
         });
         return view;
-
-
     }
 }

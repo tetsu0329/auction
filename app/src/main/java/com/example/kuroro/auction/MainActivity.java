@@ -174,7 +174,13 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             case R.id.managebid:
+                lyt.removeAllViews();
 
+                ManageOwn manageOwn = new ManageOwn();
+                android.support.v4.app.FragmentManager manager2 = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction2 = manager2.beginTransaction().addToBackStack(null);
+                transaction2.add(R.id.contentmain,manageOwn,"Upload Fragment");
+                transaction2.commit();
                 break;
 
             case R.id.recentoffer:

@@ -9,6 +9,7 @@ public class BidHistoryList {
     private String offerPrice;
     private String bidID;
     private String userID;
+    private String bidtime;
 
     public String getBidHistoryID() {
         return bidHistoryID;
@@ -26,11 +27,14 @@ public class BidHistoryList {
         return userID;
     }
 
-    public BidHistoryList(String bidHistoryID, String offerPrice, String bidID, String userID) {
+    public String getBidtime() { return bidtime; }
+
+    public BidHistoryList(String bidHistoryID, String offerPrice, String bidID, String userID, String bidtime) {
         this.bidHistoryID = bidHistoryID;
         this.offerPrice = offerPrice;
         this.bidID = bidID;
         this.userID = userID;
+        this.bidtime = bidtime;
     }
     public BidHistoryList () {}
 }
