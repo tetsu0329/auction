@@ -1,5 +1,6 @@
 package com.example.kuroro.auction;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.format.Time;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,7 @@ public class ShowBidAdapter2 extends ArrayAdapter<BidList> {
     private int resource;
     private List<BidList> listImage;
     DatabaseReference mDatabaseRef2;
+    Dialog dialog;
 
     public ShowBidAdapter2(Context context, int resource, List<BidList> objects){
         super(context, resource, objects);
