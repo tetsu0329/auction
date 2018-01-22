@@ -37,6 +37,7 @@
         <activity
             android:name=".ProfileSet"
             android:theme="@style/AppTheme2" />
+        <activity android:name=".BidHistoryView"></activity>
     </application>
 
 </manifest>

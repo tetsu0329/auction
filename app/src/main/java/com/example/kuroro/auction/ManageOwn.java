@@ -31,7 +31,7 @@ public class ManageOwn extends Fragment {
     ListView listView;
     ProgressDialog progressDialog;
     DatabaseReference mDatabaseRef;
-    ShowBidAdapter showBidAdapter;
+    ShowBidAdapter2 showBidAdapter;
     FirebaseAuth firebaseAuth;
     String userID;
     @Override
@@ -77,7 +77,7 @@ public class ManageOwn extends Fragment {
                     BidList productUpload = snapshot.getValue(BidList.class);
                     bidList.add(productUpload);
                 }
-                showBidAdapter = new ShowBidAdapter(getActivity(), R.layout.ownbid_row_layout, bidList);
+                showBidAdapter = new ShowBidAdapter2(getActivity(), R.layout.ownbid_row_layout, bidList);
                 listView.setAdapter(showBidAdapter);
             }
             @Override

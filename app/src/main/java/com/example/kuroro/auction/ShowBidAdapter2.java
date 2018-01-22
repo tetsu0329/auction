@@ -1,8 +1,12 @@
 package com.example.kuroro.auction;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +47,7 @@ public class ShowBidAdapter2 extends ArrayAdapter<BidList> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
+        ((Activity) context).getFragmentManager();
         mDatabaseRef2 = FirebaseDatabase.getInstance().getReference();
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         row = layoutInflater.inflate(R.layout.ownbid_row_layout,parent,false);
@@ -51,9 +56,19 @@ public class ShowBidAdapter2 extends ArrayAdapter<BidList> {
         final TextView txtprice = row.findViewById(R.id.textView7);
         final TextView txtwin = row.findViewById(R.id.textView8);
         final TextView txttype = row.findViewById(R.id.textView9);
+        ImageButton imageButton = row.findViewById(R.id.imageButton);
 
         try{
-            String bidID = listImage.get(position).getBidID();
+            final String bidID = listImage.get(position).getBidID();
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent= new Intent(context, BidHistoryView.class);
+                    intent.putExtra("key",bidID);
+                    context.startActivity(intent);
+                }
+            });
+
             txtname.setText(listImage.get(position).getBidName());
 
             txttype.setText(listImage.get(position).getBidType());
