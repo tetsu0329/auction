@@ -21,54 +21,69 @@ import java.util.List;
 
 public class BidHistoryView extends AppCompatActivity {
 
-    private List<BidList> bidList;
+    private List<BidHistoryList> bidList;
     ListView listView;
+    private List<FinalBid> bidList2;
+    ListView listView2;
     ProgressDialog progressDialog;
-    DatabaseReference mDatabaseRef;
-    ShowBidAdapter showBidAdapter;
+    DatabaseReference mDatabaseRef, mDatabaseRef2;
+    ShowHistoryAdapter showBidAdapter;
+    ShowWinAdapter showBidAdapter2;
     FirebaseAuth firebaseAuth;
     String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_bid_history);
-//        bidList = new ArrayList<>();
-//        listView = findViewById(R.id.listView);
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        userID = firebaseAuth.getCurrentUser().getUid();
-//        Bundle bundle = getIntent().getExtras();
-//        String bidID = bundle.getString("key");
-//        Toast.makeText(getApplicationContext(), bidID, Toast.LENGTH_LONG).show();
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//            }
-//        });
-//
-//        progressDialog = new ProgressDialog(getApplicationContext());
-//        progressDialog.setMessage("Please wait while loading Items in your Auction..... ");
-//        progressDialog.show();
-//        progressDialog.setCancelable(false);
-//
-//        mDatabaseRef = FirebaseDatabase.getInstance().getReference("bid");
-//        Query search = mDatabaseRef.orderByChild("userID").equalTo(userID);
-//        search.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                bidList.clear();
-//                progressDialog.dismiss();
-//                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-//                    BidList productUpload = snapshot.getValue(BidList.class);
-//                    bidList.add(productUpload);
-//                }
-//                showBidAdapter = new ShowBidAdapter(getApplicationContext(), R.layout.ownbid_row_layout, bidList);
-//                listView.setAdapter(showBidAdapter);
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        bidList = new ArrayList<>();
+        bidList2 = new ArrayList<>();
+        listView = findViewById(R.id.listview1);
+        listView2 = findViewById(R.id.listview2);
+        firebaseAuth = FirebaseAuth.getInstance();
+        userID = firebaseAuth.getCurrentUser().getUid();
+        Bundle bundle = getIntent().getExtras();
+        String bidID = bundle.getString("key");
+        Toast.makeText(getApplicationContext(), bidID, Toast.LENGTH_LONG).show();
+
+        progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog.setMessage("Please wait while loading your history..... ");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("bidhistory").child(bidID);
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                bidList.clear();
+                progressDialog.dismiss();
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    BidHistoryList productUpload = snapshot.getValue(BidHistoryList.class);
+                    bidList.add(productUpload);
+                }
+                showBidAdapter = new ShowHistoryAdapter(getApplicationContext(), R.layout.historyrow, bidList);
+                listView.setAdapter(showBidAdapter);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("finalbid");
+        mDatabaseRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot2) {
+                bidList2.clear();
+                for(DataSnapshot snapshot2: dataSnapshot2.getChildren()){
+                    FinalBid productUpload2 = snapshot2.getValue(FinalBid.class);
+                    bidList2.add(productUpload2);
+                }
+                showBidAdapter2 = new ShowWinAdapter(getApplicationContext(), R.layout.historyrow, bidList2);
+                listView2.setAdapter(showBidAdapter2);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
