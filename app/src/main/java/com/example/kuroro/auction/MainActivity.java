@@ -192,14 +192,32 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.bidding:
+                lyt.removeAllViews();
 
+                ShowEnglishBid showEnglishBid = new ShowEnglishBid();
+                android.support.v4.app.FragmentManager manager3 = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction3 = manager3.beginTransaction().addToBackStack(null);
+                transaction3.add(R.id.contentmain,showEnglishBid,"Upload Fragment");
+                transaction3.commit();
                 break;
 
             case R.id.bidding2:
+                lyt.removeAllViews();
 
+                ShowDutchBid showDutchBid = new ShowDutchBid();
+                android.support.v4.app.FragmentManager manager4 = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction4 = manager4.beginTransaction().addToBackStack(null);
+                transaction4.add(R.id.contentmain,showDutchBid,"Upload Fragment");
+                transaction4.commit();
                 break;
             case R.id.bidding3:
+                lyt.removeAllViews();
 
+                ShowSealedBid showSealedBid = new ShowSealedBid();
+                android.support.v4.app.FragmentManager manager5 = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction5 = manager5.beginTransaction().addToBackStack(null);
+                transaction5.add(R.id.contentmain,showSealedBid,"Upload Fragment");
+                transaction5.commit();
                 break;
 
             case R.id.bidding4:

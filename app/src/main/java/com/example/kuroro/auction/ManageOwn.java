@@ -46,18 +46,18 @@ public class ManageOwn extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                BidList bidList2 = (BidList) adapterView.getAdapter().getItem(i);
-                String userID2 = bidList2.getBidID();
-                Toast.makeText(getActivity(), bidList2.getBidType(), Toast.LENGTH_SHORT).show();
-                if(bidList2.getBidType().equals("English")){
-
-                }
-                if(bidList2.getBidType().equals("Dutch")){
-
-                }
-                if(bidList2.getBidType().equals("Sealed")){
-
-                }
+//                BidList bidList2 = (BidList) adapterView.getAdapter().getItem(i);
+//                String userID2 = bidList2.getBidID();
+//                Toast.makeText(getActivity(), bidList2.getBidType(), Toast.LENGTH_SHORT).show();
+//                if(bidList2.getBidType().equals("English")){
+//
+//                }
+//                if(bidList2.getBidType().equals("Dutch")){
+//
+//                }
+//                if(bidList2.getBidType().equals("Sealed")){
+//
+//                }
             }
         });
 

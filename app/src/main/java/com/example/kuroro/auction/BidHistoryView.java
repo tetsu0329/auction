@@ -69,7 +69,8 @@ public class BidHistoryView extends AppCompatActivity {
             }
         });
         mDatabaseRef2 = FirebaseDatabase.getInstance().getReference("finalbid");
-        mDatabaseRef2.addValueEventListener(new ValueEventListener() {
+        Query search = mDatabaseRef2.orderByChild("bidID").equalTo(bidID);
+        search.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot2) {
                 bidList2.clear();
