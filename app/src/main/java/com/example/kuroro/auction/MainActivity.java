@@ -303,7 +303,9 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             case R.id.Communication3:
-
+                auth.signOut();
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
                 break;
         }
     }

@@ -42,7 +42,7 @@ public class ShowBidDetails extends Fragment {
     String bidID;
     ProgressDialog progressDialog;
     Dialog dialog;
-    String pricee;
+    String pricee, bidName, sname;
     String mydate;
     public ShowBidDetails() {
         // Required empty public constructor
@@ -99,6 +99,7 @@ public class ShowBidDetails extends Fragment {
                             {
                                 final BidList3 bidList3 = snapshot2.getValue(BidList3.class);
                                 textView.setText(bidList3.getBidName());
+                                bidName = bidList3.getBidName();
                                 Query search2 = mDatabaseRef2.child("finalbid").orderByChild("bidID").startAt(bidID).endAt(bidID+"\uf8ff");
                                 search2.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -274,9 +275,9 @@ public class ShowBidDetails extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (final DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     BidList bidList = snapshot.getValue(BidList.class);
-                    final String userID = bidList.getUserID();
-                    String bidName = bidList.getBidName();
-                    Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userID);
+                    final String userIDD = bidList.getUserID();
+                    final String bidName = bidList.getBidName();
+                    Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userIDD);
                     search2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -285,7 +286,7 @@ public class ShowBidDetails extends Fragment {
                                 dialog = new Dialog(getActivity());
                                 dialog.setTitle("Make Bid");
                                 dialog.setContentView(R.layout.showbidbox);
-                                TextView name = dialog.findViewById(R.id.textbox9);
+                                final TextView name = dialog.findViewById(R.id.textbox9);
                                 name.setText(account.getUserName());
 
                                 ImageView imageView = dialog.findViewById(R.id.imageView4);
@@ -298,39 +299,56 @@ public class ShowBidDetails extends Fragment {
                                 ask.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        String userID = auth.getCurrentUser().getUid();
-                                        //Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userID);
-                                        String requestID = mDatabaseRef.push().getKey();
-                                        EditText editText = dialog.findViewById(R.id.editText9);
-                                        String nums = editText.getText().toString();
-                                        int req = Integer.parseInt(nums);
-                                        int max = Integer.parseInt(pricee);
-                                        if(max<=req){
-                                            mDatabaseRef4.child(bidID).removeValue();
-                                            FinalBid finalBid = new FinalBid(requestID, nums, bidID, userID, mydate);
-                                            mDatabaseRef4.child(bidID).setValue(finalBid);
+                                        final String userID = auth.getCurrentUser().getUid();
+                                        Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userID);
+                                        search2.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot2) {
+                                                for(DataSnapshot snapshot2: dataSnapshot2.getChildren()){
+                                                    UserList account = snapshot2.getValue(UserList.class);
+                                                    sname = account.getUserName();
+                                                    String requestID = mDatabaseRef.push().getKey();
+                                                    EditText editText = dialog.findViewById(R.id.editText9);
+                                                    String nums = editText.getText().toString();
+                                                    int req = Integer.parseInt(nums);
+                                                    int max = Integer.parseInt(pricee);
+                                                    if(max<=req){
+                                                        mDatabaseRef4.child(bidID).removeValue();
+                                                        FinalBid finalBid = new FinalBid(requestID, nums, bidID, userID, mydate);
+                                                        mDatabaseRef4.child(bidID).setValue(finalBid);
 
-                                            BidHistoryList requestTour = new BidHistoryList(requestID,nums,bidID,userID, mydate);
-                                            mDatabaseRef3.child(requestID).setValue(requestTour);
+                                                        BidHistoryList requestTour = new BidHistoryList(requestID,nums,bidID,userID, mydate);
+                                                        mDatabaseRef3.child(requestID).setValue(requestTour);
 
-//                                            dialog.dismiss();
-//                                            Intent intent = new Intent(getContext(), MainActivity.class);
-//                                            startActivity(intent);
-                                            ask.setEnabled(false);
-                                            editText.setEnabled(false);
-                                            mDatabaseRef5.getRef().child("offerPrice").setValue(nums);
+            //                                            dialog.dismiss();
+            //                                            Intent intent = new Intent(getContext(), MainActivity.class);
+            //                                            startActivity(intent);
+                                                        ask.setEnabled(false);
+                                                        editText.setEnabled(false);
+                                                        mDatabaseRef5.getRef().child("offerPrice").setValue(nums);
 
-                                            final DatabaseReference mDatabaseRef3 = FirebaseDatabase.getInstance().getReference("pushnotif").child(userID);
-                                            String uploadID = mDatabaseRef3.push().getKey();
-                                            PushNotifList pushNotification = new PushNotifList (uploadID,userID,"Your Bid has been Placed");
-                                            mDatabaseRef3.child(uploadID).setValue(pushNotification);
-                                            Toast.makeText(getActivity(),"Your Bid has been placed", Toast.LENGTH_SHORT).show();
-                                            //notifyAll();
+                                                        final DatabaseReference mDatabaseRef3 = FirebaseDatabase.getInstance().getReference("pushnotif").child(userIDD);
+                                                        String uploadID = mDatabaseRef3.push().getKey();
+                                                        String notifmessage = sname+ " has placed bid (PHP "+nums+ ".00) in: "+ bidName;
+                                                        PushNotifList pushNotification = new PushNotifList (uploadID,userIDD,notifmessage);
+                                                        mDatabaseRef3.child(uploadID).setValue(pushNotification);
 
-                                        }
-                                        else{
-                                            Toast.makeText(getActivity(),"Higher Bid Required", Toast.LENGTH_SHORT).show();
-                                        }
+                                                        Toast.makeText(getActivity(),"Your Bid has been placed", Toast.LENGTH_SHORT).show();
+                                                        //notifyAll();
+
+                                                    }
+                                                    else{
+                                                        Toast.makeText(getActivity(),"Higher Bid Required", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
                                     }
                                 });
 

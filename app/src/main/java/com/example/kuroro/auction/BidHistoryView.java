@@ -28,7 +28,7 @@ public class BidHistoryView extends AppCompatActivity {
     ProgressDialog progressDialog;
     DatabaseReference mDatabaseRef, mDatabaseRef2;
     ShowHistoryAdapter showBidAdapter;
-    ShowWinAdapter showBidAdapter2;
+    ShowWinAdapter2 showBidAdapter2;
     FirebaseAuth firebaseAuth;
     String userID;
     @Override
@@ -43,8 +43,6 @@ public class BidHistoryView extends AppCompatActivity {
         userID = firebaseAuth.getCurrentUser().getUid();
         Bundle bundle = getIntent().getExtras();
         String bidID = bundle.getString("key");
-        Toast.makeText(getApplicationContext(), bidID, Toast.LENGTH_LONG).show();
-
         progressDialog = new ProgressDialog(getApplicationContext());
         progressDialog.setMessage("Please wait while loading your history..... ");
         progressDialog.show();
@@ -78,7 +76,7 @@ public class BidHistoryView extends AppCompatActivity {
                     FinalBid productUpload2 = snapshot2.getValue(FinalBid.class);
                     bidList2.add(productUpload2);
                 }
-                showBidAdapter2 = new ShowWinAdapter(getApplicationContext(), R.layout.historyrow, bidList2);
+                showBidAdapter2 = new ShowWinAdapter2(getApplicationContext(), R.layout.historyrow2, bidList2);
                 listView2.setAdapter(showBidAdapter2);
             }
             @Override

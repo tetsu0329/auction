@@ -21,9 +21,9 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="Notifications" />
     </group>
-
-    <item android:title="Bidding">
+    <item android:title="Bidding Type">
         <menu>
+            <group android:checkableBehavior="single">
             <item
                 android:id="@+id/bidding"
                 android:icon="@drawable/ic_menu_send"
@@ -40,6 +40,7 @@
                 android:id="@+id/bidding4"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Buy me now" />
+            </group>
         </menu>
     </item>
     <item android:title="Communication">

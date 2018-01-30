@@ -38,7 +38,7 @@ public class ShowBidDetails3 extends Fragment {
     String bidID;
     ProgressDialog progressDialog;
     Dialog dialog;
-    String pricee;
+    String pricee, sname;
     String mydate;
     public ShowBidDetails3() {
         // Required empty public constructor
@@ -276,8 +276,9 @@ public class ShowBidDetails3 extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (final DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     BidList bidList = snapshot.getValue(BidList.class);
-                    final String userID = bidList.getUserID();
-                    Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userID);
+                    final String userIDD = bidList.getUserID();
+                    final String bidName = bidList.getBidName();
+                    Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userIDD);
                     search2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot1) {
@@ -288,6 +289,22 @@ public class ShowBidDetails3 extends Fragment {
                                 dialog.setContentView(R.layout.showbidbox);
                                 TextView name = dialog.findViewById(R.id.textbox9);
                                 name.setText(account.getUserName());
+                                final String userID = auth.getCurrentUser().getUid();
+                                Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userID);
+                                search2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for(DataSnapshot snapshot2: dataSnapshot.getChildren()) {
+                                            UserList account = snapshot2.getValue(UserList.class);
+                                            sname = account.getUserName();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
 
                                 ImageView imageView = dialog.findViewById(R.id.imageView4);
                                 Picasso.with(getActivity()).load(account.getUserPhoto()).into(imageView);
@@ -300,6 +317,7 @@ public class ShowBidDetails3 extends Fragment {
                                     @Override
                                     public void onClick(View view) {
                                         String userID = auth.getCurrentUser().getUid();
+
                                         String requestID = mDatabaseRef.push().getKey();
                                         EditText editText = dialog.findViewById(R.id.editText9);
                                         String nums = editText.getText().toString();
@@ -319,6 +337,13 @@ public class ShowBidDetails3 extends Fragment {
                                             ask.setEnabled(false);
                                             editText.setEnabled(false);
 //                                            mDatabaseRef5.getRef().child("offerPrice").setValue(nums);
+
+                                            final DatabaseReference mDatabaseRef3 = FirebaseDatabase.getInstance().getReference("pushnotif").child(userIDD);
+                                            String uploadID = mDatabaseRef3.push().getKey();
+                                            String notifmessage = sname+ " has placed bid (PHP "+nums+ ".00) in: "+ bidName;
+                                            PushNotifList pushNotification = new PushNotifList (uploadID,userIDD,notifmessage);
+                                            mDatabaseRef3.child(uploadID).setValue(pushNotification);
+
                                             Toast.makeText(getActivity(),"Your Bid has been placed", Toast.LENGTH_SHORT).show();
                                             //notifyAll();
                                         }
