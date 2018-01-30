@@ -2,11 +2,15 @@ package com.example.kuroro.auction;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     StorageReference mStorageRef;
     DatabaseReference mDatabaseRef;
     ConstraintLayout lyt;
+    Notification.Builder notification;
+    private static final int uniqueID = 45612;
 
     FloatingActionButton fabicon;
     @Override
@@ -53,6 +60,71 @@ public class MainActivity extends AppCompatActivity
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         lyt = findViewById(R.id.contentmain);
 
+
+        notification = new Notification.Builder(getApplicationContext());
+        notification.setAutoCancel(true);
+
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("pushnotif");
+        DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference("pushnotif").child(auth.getCurrentUser().getUid());
+        Query search5 = databaseReference.child(auth.getCurrentUser().getUid()).orderByChild("notifUser").equalTo(auth.getCurrentUser().getUid());
+        search5.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    int incid = uniqueID + 1;
+                    PushNotifList pushNotification = snapshot.getValue(PushNotifList.class);
+                    String pd = pushNotification.getNotifComment();
+
+                    //Toast.makeText(getApplicationContext(), pd, Toast.LENGTH_SHORT).show();
+
+                    notification.setSmallIcon(R.drawable.logo);
+                    notification.setTicker(pd);
+                    notification.setWhen(System.currentTimeMillis());
+                    notification.setContentTitle("Online Auction");
+                    notification.setContentText(pd);
+
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    notification.setContentIntent(pendingIntent);
+
+                    NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    nm.notify(incid, notification.build());
+
+                    snapshot.getRef().removeValue();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                //Toast.makeText(getApplicationContext(),"Change",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                //Toast.makeText(getApplicationContext(),"Move",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

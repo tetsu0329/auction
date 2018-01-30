@@ -275,6 +275,7 @@ public class ShowBidDetails extends Fragment {
                 for (final DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     BidList bidList = snapshot.getValue(BidList.class);
                     final String userID = bidList.getUserID();
+                    String bidName = bidList.getBidName();
                     Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userID);
                     search2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -298,6 +299,7 @@ public class ShowBidDetails extends Fragment {
                                     @Override
                                     public void onClick(View view) {
                                         String userID = auth.getCurrentUser().getUid();
+                                        //Query search2 = mDatabaseRef2.child("userinfo").orderByChild("userID").equalTo(userID);
                                         String requestID = mDatabaseRef.push().getKey();
                                         EditText editText = dialog.findViewById(R.id.editText9);
                                         String nums = editText.getText().toString();
@@ -317,6 +319,11 @@ public class ShowBidDetails extends Fragment {
                                             ask.setEnabled(false);
                                             editText.setEnabled(false);
                                             mDatabaseRef5.getRef().child("offerPrice").setValue(nums);
+
+                                            final DatabaseReference mDatabaseRef3 = FirebaseDatabase.getInstance().getReference("pushnotif").child(userID);
+                                            String uploadID = mDatabaseRef3.push().getKey();
+                                            PushNotifList pushNotification = new PushNotifList (uploadID,userID,"Your Bid has been Placed");
+                                            mDatabaseRef3.child(uploadID).setValue(pushNotification);
                                             Toast.makeText(getActivity(),"Your Bid has been placed", Toast.LENGTH_SHORT).show();
                                             //notifyAll();
 
