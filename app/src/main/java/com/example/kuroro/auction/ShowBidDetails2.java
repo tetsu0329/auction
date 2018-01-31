@@ -321,6 +321,11 @@ public class ShowBidDetails2 extends Fragment {
                                             PushNotifList pushNotification = new PushNotifList (uploadID,userIDD,notifmessage);
                                             mDatabaseRef3.child(uploadID).setValue(pushNotification);
 
+                                            final DatabaseReference mDatabaseRef4 = FirebaseDatabase.getInstance().getReference("pushhistorynotif").child(userIDD);
+                                            PushNotifHistoryList pushNotifHistoryList = new PushNotifHistoryList (uploadID,userIDD,notifmessage,mydate);
+                                            mDatabaseRef4.child(uploadID).setValue(pushNotifHistoryList);
+
+
                                             Toast.makeText(getActivity(),"Your Bid has been placed", Toast.LENGTH_SHORT).show();
                                             //notifyAll();
 
