@@ -44,7 +44,7 @@ public class ShowHistoryAdapter extends ArrayAdapter<BidHistoryList> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         row = layoutInflater.inflate(R.layout.historyrow,parent,false);
         final TextView txtname = row.findViewById(R.id.textView1);

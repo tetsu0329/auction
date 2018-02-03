@@ -95,46 +95,57 @@ public class Login extends AppCompatActivity {
                             editText2.setEnabled(true);
                         }
                         else{
-                            final String id = auth.getCurrentUser().getUid();
-                            mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-                            Query search = mDatabaseRef.child("userinfo").orderByChild("userID").equalTo(id);
-                            search.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if(dataSnapshot.exists()){
+                            if(auth.getCurrentUser().isEmailVerified()){
+                                final String id = auth.getCurrentUser().getUid();
+                                mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+                                Query search = mDatabaseRef.child("userinfo").orderByChild("userID").equalTo(id);
+                                search.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.exists()){
 
-                                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                                            UserList userAccount = snapshot.getValue(UserList.class);
-                                            String stat = userAccount.getUserStatus();
+                                            for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                                UserList userAccount = snapshot.getValue(UserList.class);
+                                                String stat = userAccount.getUserStatus();
 
-                                            if(stat.equals("Pending")){
-                                                login.setVisibility(View.VISIBLE);
-                                                register.setVisibility(View.VISIBLE);
+                                                if(stat.equals("Pending")){
+                                                    login.setVisibility(View.VISIBLE);
+                                                    register.setVisibility(View.VISIBLE);
 
-                                                editText.setEnabled(true);
-                                                editText2.setEnabled(true);
+                                                    editText.setEnabled(true);
+                                                    editText2.setEnabled(true);
 
-                                                Intent intent = new Intent(Login.this, MainActivity.class);
-                                                startActivity(intent);
-                                            }
-                                            else{
-                                                Intent intent = new Intent(Login.this, MainActivity.class);
-                                                startActivity(intent);
+                                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                }
+                                                else{
+                                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                }
                                             }
                                         }
+                                        else{
+                                            Intent intent = new Intent(Login.this, ProfileSet.class);
+                                            startActivity(intent);
+                                        }
                                     }
-                                    else{
-                                        Intent intent = new Intent(Login.this, ProfileSet.class);
-                                        startActivity(intent);
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
                                     }
-                                }
+                                });
+                            }
+                            else{
+                                auth.signOut();
+                                Snackbar.make(view, "Please Verify First your Email", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                login.setVisibility(View.VISIBLE);
+                                register.setVisibility(View.VISIBLE);
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-
+                                editText.setEnabled(true);
+                                editText2.setEnabled(true);
+                            }
                         }
                     }
                 });

@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity
                 ManageOwn manageOwn = new ManageOwn();
                 android.support.v4.app.FragmentManager manager2 = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction transaction2 = manager2.beginTransaction().addToBackStack(null);
-                transaction2.add(R.id.contentmain,manageOwn,"Upload Fragment");
+                transaction2.add(R.id.contentmain,manageOwn,"Own Upload Fragment");
                 transaction2.commit();
                 break;
 
@@ -260,7 +260,13 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.notification:
+                lyt.removeAllViews();
 
+                OwnPushNotif ownPushNotif = new OwnPushNotif();
+                android.support.v4.app.FragmentManager manager6 = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction6 = manager6.beginTransaction().addToBackStack(null);
+                transaction6.add(R.id.contentmain,ownPushNotif,"Notification Fragment");
+                transaction6.commit();
                 break;
 
             case R.id.bidding:
@@ -269,7 +275,7 @@ public class MainActivity extends AppCompatActivity
                 ShowEnglishBid showEnglishBid = new ShowEnglishBid();
                 android.support.v4.app.FragmentManager manager3 = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction transaction3 = manager3.beginTransaction().addToBackStack(null);
-                transaction3.add(R.id.contentmain,showEnglishBid,"Upload Fragment");
+                transaction3.add(R.id.contentmain,showEnglishBid,"English Bidding Fragment");
                 transaction3.commit();
                 break;
 
@@ -279,7 +285,7 @@ public class MainActivity extends AppCompatActivity
                 ShowDutchBid showDutchBid = new ShowDutchBid();
                 android.support.v4.app.FragmentManager manager4 = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction transaction4 = manager4.beginTransaction().addToBackStack(null);
-                transaction4.add(R.id.contentmain,showDutchBid,"Upload Fragment");
+                transaction4.add(R.id.contentmain,showDutchBid,"Dutch Bidding Fragment");
                 transaction4.commit();
                 break;
             case R.id.bidding3:
@@ -288,7 +294,7 @@ public class MainActivity extends AppCompatActivity
                 ShowSealedBid showSealedBid = new ShowSealedBid();
                 android.support.v4.app.FragmentManager manager5 = getSupportFragmentManager();
                 android.support.v4.app.FragmentTransaction transaction5 = manager5.beginTransaction().addToBackStack(null);
-                transaction5.add(R.id.contentmain,showSealedBid,"Upload Fragment");
+                transaction5.add(R.id.contentmain,showSealedBid,"Sealed Bidding Fragment");
                 transaction5.commit();
                 break;
 

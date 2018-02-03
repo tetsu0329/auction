@@ -43,23 +43,32 @@ public class BidHistoryView extends AppCompatActivity {
         userID = firebaseAuth.getCurrentUser().getUid();
         Bundle bundle = getIntent().getExtras();
         String bidID = bundle.getString("key");
-        progressDialog = new ProgressDialog(getApplicationContext());
+        progressDialog = new ProgressDialog(BidHistoryView.this);
         progressDialog.setMessage("Please wait while loading your history..... ");
         progressDialog.show();
         progressDialog.setCancelable(false);
+
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("bidhistory").child(bidID);
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                bidList.clear();
-                progressDialog.dismiss();
-                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    BidHistoryList productUpload = snapshot.getValue(BidHistoryList.class);
-                    bidList.add(productUpload);
+                if(dataSnapshot.exists()){
+                    bidList.clear();
+                    progressDialog.dismiss();
+                    for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                        BidHistoryList productUpload = snapshot.getValue(BidHistoryList.class);
+                        bidList.add(productUpload);
+                    }
+                    progressDialog.dismiss();
+                    showBidAdapter = new ShowHistoryAdapter(getApplicationContext(), R.layout.historyrow, bidList);
+                    listView.setAdapter(showBidAdapter);
                 }
-                showBidAdapter = new ShowHistoryAdapter(getApplicationContext(), R.layout.historyrow, bidList);
-                listView.setAdapter(showBidAdapter);
+                else{
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "No Data", Toast.LENGTH_SHORT).show();
+                }
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -84,5 +93,5 @@ public class BidHistoryView extends AppCompatActivity {
 
             }
         });
-    }
+}
 }

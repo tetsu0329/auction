@@ -105,7 +105,8 @@
                 android:ems="10"
                 android:hint="Contact Number"
                 android:inputType="number"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:maxLength="11"/>
         </LinearLayout>
 
         <TextView

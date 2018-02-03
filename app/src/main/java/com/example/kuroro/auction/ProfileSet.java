@@ -181,6 +181,8 @@ public class ProfileSet extends AppCompatActivity {
                                 String userID = auth.getCurrentUser().getUid();
                                 UserList userAccount = new UserList(userID, name1, address1, taskSnapshot.getDownloadUrl().toString(), contact1, auth.getCurrentUser().getEmail(), taskSnapshot2.getDownloadUrl().toString(), "Pending");
                                 mDatabaseRef.child(userID).setValue(userAccount);
+                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                auth.getCurrentUser().sendEmailVerification();
                                 Toast.makeText(getApplicationContext(), "User Info Saved and waiting to be Approved", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(ProfileSet.this, MainActivity.class);
                                 startActivity(intent);
