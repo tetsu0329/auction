@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,12 +53,14 @@ public class ShowBidAdapter extends ArrayAdapter<BidList> {
         final TextView txtprice = row.findViewById(R.id.textView7);
         final TextView txtwin = row.findViewById(R.id.textView8);
         final TextView txttype = row.findViewById(R.id.textView9);
+        final ImageView imageButton = row.findViewById(R.id.imageView5);
 
         try{
             String bidID = listImage.get(position).getBidID();
             txtname.setText(listImage.get(position).getBidName());
 
             txttype.setText(listImage.get(position).getBidType());
+            Picasso.with(context).load(listImage.get(position).getBidImage1()).into(imageButton);
             String textfortxtprice = "Starting Bid: " + listImage.get(position).getBidPrice();
             txtprice.setText(textfortxtprice);
 
