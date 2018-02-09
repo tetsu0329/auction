@@ -82,6 +82,17 @@ public class ShowAllBid extends Fragment {
                     fragmentTransaction.replace(R.id.contentmain, fragment2);
                     fragmentTransaction.commit();
                 }
+                if(bidList2.getBidType().equals("BuyMe")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("bidIDD",userID2);
+                    ShowBidDetails4 fragment4 = new ShowBidDetails4();
+                    fragment4.setArguments(bundle);
+
+                    android.support.v4.app.FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.contentmain, fragment4);
+                    fragmentTransaction.commit();
+                }
             }
         });
 
@@ -110,5 +121,4 @@ public class ShowAllBid extends Fragment {
         });
         return view;
     }
-
 }

@@ -299,15 +299,28 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.bidding4:
+                lyt.removeAllViews();
 
+                showBuyMe buyMeNow = new showBuyMe();
+                android.support.v4.app.FragmentManager manager8 = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction8 = manager8.beginTransaction().addToBackStack(null);
+                transaction8.add(R.id.contentmain,buyMeNow,"Buy Me Now Fragment");
+                transaction8.commit();
                 break;
 
             case R.id.Communication1:
 
                 break;
             case R.id.Communication2:
+                lyt.removeAllViews();
 
+                ContactUs contactUs = new ContactUs();
+                android.support.v4.app.FragmentManager manager7 = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction7 = manager7.beginTransaction().addToBackStack(null);
+                transaction7.add(R.id.contentmain,contactUs,"Contact Us fragment");
+                transaction7.commit();
                 break;
+
             case R.id.Communication3:
                 auth.signOut();
                 Intent intent = new Intent(MainActivity.this, Login.class);
