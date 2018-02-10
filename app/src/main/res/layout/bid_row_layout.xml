@@ -2,42 +2,114 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="200dp">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp">
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/bg" />
     <LinearLayout
+        android:padding="16dp"
         android:orientation="vertical"
-        android:layout_width="100dp"
-        android:layout_height="100dp">
-
-    </LinearLayout>
-
-
-
-    <!--<ImageButton-->
-        <!--android:id="@+id/imageButton"-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_marginStart="210dp"-->
-        <!--android:layout_marginTop="-30dp"-->
-        <!--android:backgroundTint="@android:color/transparent"-->
-        <!--android:clickable="false"-->
-        <!--android:enabled="true"-->
-        <!--android:scaleType="fitXY"-->
-        <!--android:src="@drawable/bidbid"-->
-        <!--android:text="Bid now" />-->
-
-    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
+            <TextView
+                android:text="Name here...."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/textView"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Days Left: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+            <TextView
+                android:text="5 days left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Starting bid: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+            <TextView
+                android:text="PHP 500.00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView7"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Winning bid: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+            <TextView
+                android:text="PHP 500.00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView8"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bid Type: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+            <TextView
+                android:text="English"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView9"
+                android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/imageButton"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bidbid"
+            android:text="Bid now" />
     </LinearLayout>
-
-
 
 </LinearLayout>

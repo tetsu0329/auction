@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +42,8 @@ public class ShowBidDetails4 extends Fragment {
     StorageReference mStorageRef;
     DatabaseReference mDatabaseRef, mDatabaseRef2, mDatabaseRef3, mDatabaseRef4, mDatabaseRef5;
     ImageView imageView, imageView2, imageView3;
-    TextView textView, textView2;
-    Button button;
+    TextView textView, textView2, textView3, textView4;
+    ImageButton button;
     String bidID;
     ProgressDialog progressDialog;
     Dialog dialog;
@@ -71,6 +73,8 @@ public class ShowBidDetails4 extends Fragment {
 
         textView = view.findViewById(R.id.textView8);
         textView2 = view.findViewById(R.id.textView9);
+        textView3 = view.findViewById(R.id.textView10);
+        textView4 = view.findViewById(R.id.textView11);
 
         auth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -116,6 +120,8 @@ public class ShowBidDetails4 extends Fragment {
                             {
                                 final BidList3 bidList3 = snapshot2.getValue(BidList3.class);
                                 textView.setText(bidList3.getBidName());
+                                textView3.setText(bidList3.getCondition());
+                                textView4.setText(bidList3.getBiddersNote());
                                 Query search2 = mDatabaseRef2.child("finalbid").orderByChild("bidID").startAt(bidID).endAt(bidID+"\uf8ff");
                                 search2.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -169,6 +175,8 @@ public class ShowBidDetails4 extends Fragment {
                             {
                                 final BidList2 bidList3 = snapshot2.getValue(BidList2.class);
                                 textView.setText(bidList3.getBidName());
+                                textView3.setText(bidList3.getCondition());
+                                textView4.setText(bidList3.getBiddersNote());
                                 Query search2 = mDatabaseRef2.child("finalbid").orderByChild("bidID").startAt(bidID).endAt(bidID+"\uf8ff");
                                 search2.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -221,6 +229,8 @@ public class ShowBidDetails4 extends Fragment {
                             {
                                 final BidList bidList3 = snapshot2.getValue(BidList.class);
                                 textView.setText(bidList3.getBidName());
+                                textView3.setText(bidList3.getCondition());
+                                textView4.setText(bidList3.getBiddersNote());
                                 Query search2 = mDatabaseRef2.child("finalbid").orderByChild("bidID").startAt(bidID).endAt(bidID+"\uf8ff");
                                 search2.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -266,7 +276,7 @@ public class ShowBidDetails4 extends Fragment {
             }
         });
 
-        button = view.findViewById(R.id.BuyNow);
+        button = view.findViewById(R.id.makebid);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -56,12 +56,16 @@ public class ShowBidAdapter extends ArrayAdapter<BidList> {
         final ImageView imageButton = row.findViewById(R.id.imageView5);
 
         try{
+            if(listImage.get(position).getBidType().equals("BuyMe")){
+                ImageView imageView = row.findViewById(R.id.imageButton);
+                imageView.setImageResource(R.drawable.buyme);
+            }
             String bidID = listImage.get(position).getBidID();
             txtname.setText(listImage.get(position).getBidName());
 
             txttype.setText(listImage.get(position).getBidType());
             Picasso.with(context).load(listImage.get(position).getBidImage1()).into(imageButton);
-            String textfortxtprice = "Starting Bid: " + listImage.get(position).getBidPrice();
+            String textfortxtprice = "PHP " + listImage.get(position).getBidPrice() + ".00";
             txtprice.setText(textfortxtprice);
 
             String d = listImage.get(position).getBidDays();
@@ -95,7 +99,7 @@ public class ShowBidAdapter extends ArrayAdapter<BidList> {
                         }
                             else{
                                 FinalBid bidList4 = snapshot3.getValue(FinalBid.class);
-                                String txtfortxtwin = "Current Winning Bid: "+ bidList4.getOfferPrice();
+                                String txtfortxtwin = "PHP "+ bidList4.getOfferPrice() +".00";
                                 txtwin.setText(txtfortxtwin);
                             }
                         }
@@ -106,7 +110,7 @@ public class ShowBidAdapter extends ArrayAdapter<BidList> {
                             txtwin.setText(txtfortxtwin);
                         }
                         else{
-                            String txtfortxtwin = "Current Winning Bid: "+ listImage.get(position).getBidPrice();
+                            String txtfortxtwin = "PHP "+ listImage.get(position).getBidPrice() +".00";
                             txtwin.setText(txtfortxtwin);
                         }
 

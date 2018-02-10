@@ -48,7 +48,6 @@ public class ShowAllBid extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 BidList bidList2 = (BidList) adapterView.getAdapter().getItem(i);
                 String userID2 = bidList2.getBidID();
-                Toast.makeText(getActivity(), bidList2.getBidType(), Toast.LENGTH_SHORT).show();
                 if(bidList2.getBidType().equals("English")){
                     Bundle bundle = new Bundle();
                     bundle.putString("bidIDD",userID2);
@@ -97,7 +96,7 @@ public class ShowAllBid extends Fragment {
         });
 
         progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait while loading Items in the Auction..... ");
+        progressDialog.setMessage("Please wait while loading Items in the Auction ");
         progressDialog.show();
         progressDialog.setCancelable(false);
 

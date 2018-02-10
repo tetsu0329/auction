@@ -5,47 +5,121 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context="com.example.kuroro.auction.ShowBidDetails">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:src="@drawable/atom" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/atom" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:src="@drawable/atom" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:src="@drawable/atom" />
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:id="@+id/imageView2"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/atom" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:id="@+id/imageView3"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/atom" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
-    <Button
-        android:id="@+id/BuyNow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Buy Now" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/textView88"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Boquet of Rose"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/textView99"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Item Price: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PHP 209.00"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Item Condition: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Used"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bidders Note: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This is used............"
+                android:textColor="@color/colorPrimaryDark" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <ImageButton
+                android:id="@+id/makebid"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:backgroundTint="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:src="@drawable/buyme"
+                android:text="Bid now" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
