@@ -137,14 +137,16 @@ public class Login extends AppCompatActivity {
                                 });
                             }
                             else{
-                                auth.signOut();
-                                Snackbar.make(view, "Please Verify First your Email", Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                                login.setVisibility(View.VISIBLE);
-                                register.setVisibility(View.VISIBLE);
-
-                                editText.setEnabled(true);
-                                editText2.setEnabled(true);
+                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                startActivity(intent);
+//                                auth.signOut();
+//                                Snackbar.make(view, "Please Verify First your Email", Snackbar.LENGTH_LONG)
+//                                        .setAction("Action", null).show();
+//                                login.setVisibility(View.VISIBLE);
+//                                register.setVisibility(View.VISIBLE);
+//
+//                                editText.setEnabled(true);
+//                                editText2.setEnabled(true);
                             }
                         }
                     }

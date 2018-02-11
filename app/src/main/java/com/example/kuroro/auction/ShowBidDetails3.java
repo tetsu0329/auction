@@ -295,7 +295,7 @@ public class ShowBidDetails3 extends Fragment {
                                 UserList account = snapshot1.getValue(UserList.class);
                                 dialog = new Dialog(getActivity());
                                 dialog.setTitle("Make Bid");
-                                dialog.setContentView(R.layout.showbidbox);
+                                dialog.setContentView(R.layout.showbidbox2);
                                 TextView name = dialog.findViewById(R.id.textbox9);
                                 name.setText(account.getUserName());
                                 final String userID = auth.getCurrentUser().getUid();
